@@ -158,7 +158,7 @@ class VehiculoResource extends Resource
                                     ->type('number')
                                     ->label('Valor de Compra')
                                     ->step('1')
-                                    ->live()
+                                    ->live(onBlur: true)
                                     ->placeholder('0.00'),
                                 DatePicker::make('fecha_venta')
                                     ->markAsRequired()
@@ -169,7 +169,7 @@ class VehiculoResource extends Resource
                                     ->columnSpan(3)
                                     ->prefix('$ |')
                                     ->minValue(0)
-                                    ->live()
+                                    ->live(onBlur: true)
                                     ->maxValue(9999999999999)
                                     ->type('number')
                                     ->label('Valor de Venta')
@@ -197,7 +197,7 @@ class VehiculoResource extends Resource
                                         $valor_compra = $get('valor_compra');
                                         $valor_venta = $get('valor_venta');
 
-                                        $utilidad = $valor_compra - $valor_venta - $valor_costo;
+                                        $utilidad = $valor_venta - $valor_compra - $valor_costo;
                                         $set('utilidad', $utilidad);
                                         return true;
                                     })
