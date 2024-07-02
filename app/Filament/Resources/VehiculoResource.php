@@ -180,6 +180,7 @@ class VehiculoResource extends Resource
                                     ->minValue(0)
                                     ->prefix('$ |')
                                     ->live()
+                                    ->disabled()
                                     ->maxValue(9999999999999)
                                     ->type('number')
                                     ->label('Costo Total')
