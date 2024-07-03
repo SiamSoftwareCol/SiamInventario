@@ -51,10 +51,10 @@ class VehiculoResource extends Resource
                                     ->markAsRequired(false)
                                     ->required()
                                     ->unique(ignoreRecord: true)
-                                    ->maxLength(16)
+                                    ->maxLength(17)
                                     ->columnSpan(3)
                                     ->autocomplete(false)
-                                    ->prefix('Id')
+                                    ->prefix('VIN')
                                     ->disabled(fn ($record) => optional($record)->exists ?? false) // Verificar si $record existe antes de acceder a ->exists
                                     ->label('No. Identificacion'),
                                 TextInput::make('motor')
@@ -71,7 +71,7 @@ class VehiculoResource extends Resource
                                     ->markAsRequired(false)
                                     ->required()
                                     ->unique(ignoreRecord: true)
-                                    ->maxLength(17)
+                                    ->maxLength(6)
                                     ->columnSpan(3)
                                     ->autocomplete(false)
                                     ->prefix('Matricula')
@@ -80,6 +80,7 @@ class VehiculoResource extends Resource
                                 Select::make('fabricante_id')
                                     ->relationship('fabricante', 'nombre')
                                     ->columnSpan(2)
+                                    ->required()
                                     ->required()
                                     ->label('Fabricante'),
                                 Select::make('linea_id')
@@ -91,7 +92,7 @@ class VehiculoResource extends Resource
                                     ->markAsRequired(false)
                                     ->required()
                                     ->unique(ignoreRecord: true)
-                                    ->maxLength(17)
+                                    ->maxLength(4)
                                     ->columnSpan(1)
                                     ->autocomplete(false)
                                     ->prefix('Año')
@@ -111,20 +112,22 @@ class VehiculoResource extends Resource
                                     ->relationship('color', 'nombre')
                                     ->columnSpan(2)
                                     ->required()
+                                    ->required()
                                     ->label('Color'),
                                 Select::make('combustible_id')
                                     ->relationship('combustible', 'nombre')
                                     ->columnSpan(2)
                                     ->required()
+                                    ->required()
                                     ->label('Tipo Combustible'),
                                 TextInput::make('capacidad')
-                                    ->columnSpan(1)
+                                    ->columnSpan(2)
                                     ->minValue(0)
-                                    ->prefix('cc.')
+                                    ->prefix('Centimetros Cub.')
                                     ->maxValue(9999)
                                     ->type('number')
                                     ->label('Capacidad')
-                                    ->step('0.01')
+                                    ->step('0.1')
                                     ->placeholder('0.00'),
                                 Textarea::make('descripcion')
                                     ->maxLength(255)
@@ -135,6 +138,7 @@ class VehiculoResource extends Resource
                                 Select::make('trasmision_id')
                                     ->relationship('trasmision', 'nombre')
                                     ->columnSpan(2)
+                                    ->required()
                                     ->required()
                                     ->label('Tipo Trasmision'),
                                 TextInput::make('kilometraje')
@@ -165,7 +169,6 @@ class VehiculoResource extends Resource
                                     ->placeholder('0.00'),
                                 DatePicker::make('fecha_venta')
                                     ->markAsRequired()
-                                    ->required()
                                     ->columnSpan(2)
                                     ->label('Fecha de Venta'),
                                 TextInput::make('valor_venta')
@@ -195,7 +198,7 @@ class VehiculoResource extends Resource
                                     ->live()
                                     ->prefix('$ |')
                                     ->maxValue(9999999999999)
-                                    ->disabled(function (Get $get, Set $set) {
+                                    ->readOnly(function (Get $get, Set $set) {
                                         $valor_costo = $get('total_costo');
                                         $valor_compra = $get('valor_compra');
                                         $valor_venta = $get('valor_venta');
@@ -204,7 +207,6 @@ class VehiculoResource extends Resource
                                         return true;
                                     })
                                     ->type('number')
-
                                     ->label('Utilidad Total')
                                     ->step('1')
                                     ->placeholder('0.00'),
@@ -225,7 +227,7 @@ class VehiculoResource extends Resource
             ->columns([
 
                 ColumnGroup::make(
-                    'Identificacion Vehiculo',
+                    'Datos Basicos Vehiculo',
                     [
                         TextColumn::make('matricula')
                             ->label('No de Matricula')
@@ -248,6 +250,7 @@ class VehiculoResource extends Resource
                         TextColumn::make('kilometraje')
                             ->toggleable()
                             ->sortable()
+                            ->numeric(decimalPlaces: 0)
                             ->alignment(Alignment::Center)
                             ->label('Km'),
                         TextColumn::make('fecha_compra')
@@ -259,7 +262,7 @@ class VehiculoResource extends Resource
                 ),
 
                 ColumnGroup::make(
-                    'Resumen Financiero',
+                    'Datos Comerciales',
                     [
                         TextColumn::make('valor_compra')
                             ->prefix('$')
@@ -274,7 +277,7 @@ class VehiculoResource extends Resource
                             ->numeric(decimalPlaces: 0)
                             ->alignment(Alignment::End)
                             ->tooltip('Valor Repuestos Incorporados al Vehiculo')
-                            ->label('Costos'),
+                            ->label('Total  Costos '),
                         TextColumn::make('valor_venta')
                             ->prefix('$')
                             ->default('0')
@@ -288,7 +291,7 @@ class VehiculoResource extends Resource
                             ->numeric(decimalPlaces: 0)
                             ->alignment(Alignment::End)
                             ->default('0')
-                            ->label('Utilidad'),
+                            ->label('Utilidad General'),
                     ]
                 ),
             ])
