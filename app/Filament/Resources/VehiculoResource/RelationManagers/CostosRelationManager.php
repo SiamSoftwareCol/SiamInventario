@@ -26,8 +26,7 @@ class CostosRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema([
-            ]);
+            ->schema([]);
     }
 
     public function table(Table $table): Table
@@ -36,11 +35,11 @@ class CostosRelationManager extends RelationManager
             ->recordTitleAttribute('Costos')
             ->columns([
                 TextColumn::make('item.nombre')
-                            ->label('Item'),
+                    ->label('Item'),
                 TextColumn::make('valor')
-                        ->label('Valor del Item'),
+                    ->label('Valor del Item'),
                 TextColumn::make('descripcion')
-                        ->label('Observacion del Item'),
+                    ->label('Observacion del Item'),
             ])
             ->filters([
                 //
@@ -49,53 +48,52 @@ class CostosRelationManager extends RelationManager
                 /* Tables\Actions\CreateAction::make(), */
                 ActionsTable::make('Nuevo_Repuesto')->form([
 
-                Select::make('item_id')
-                    ->relationship('item', 'nombre')
-                    ->columnSpan(2)
-                    ->required()
-                    ->label('Item'),
-                TextInput::make('valor')
-                    ->columnSpan(3)
-                    ->prefix('$ ')
-                    ->minValue(0)
-                    ->maxValue(9999999999999)
-                    ->type('number')
-                    ->label('Valor Item')
-                    ->step('1')
-                    ->placeholder('0.00'),
-                Textarea::make('descripcion')
-                    ->maxLength(255)
-                    ->autocomplete(false)
-                    ->columnSpan(4)
-                    ->label('observaciones')
-                    ->markAsRequired(false),
-                FileUpload::make('ruta_imagen_item')
-                    ->label('Imagen del Item')
-                    ->columnSpan(4)
-                    ->openable()
-                    ->deletable(false)
-                    ->downloadable()
-                    ->previewable(true)
-                    ->disk('public')
-                    ->directory('vehiculos')
-                    ->visibility('public'),
+                    Select::make('item_id')
+                        ->relationship('item', 'nombre')
+                        ->columnSpan(2)
+                        ->required()
+                        ->label('Item'),
+                    TextInput::make('valor')
+                        ->columnSpan(3)
+                        ->prefix('$ ')
+                        ->minValue(0)
+                        ->maxValue(9999999999999)
+                        ->type('number')
+                        ->label('Valor Item')
+                        ->step('1')
+                        ->placeholder('0.00'),
+                    Textarea::make('descripcion')
+                        ->maxLength(255)
+                        ->autocomplete(false)
+                        ->columnSpan(4)
+                        ->label('observaciones')
+                        ->markAsRequired(false),
+                    FileUpload::make('ruta_imagen_item')
+                        ->label('Imagen del Item')
+                        ->columnSpan(4)
+                        ->openable()
+                        ->deletable(false)
+                        ->downloadable()
+                        ->previewable(true)
+                        ->disk('public')
+                        ->directory('vehiculos')
+                        ->visibility('public'),
                 ])
-                ->action(fn (array $data, $livewire) =>[
-                    /* dd($this->getOwnerRecord()), */
-                    $vehiculo = Vehiculo::find($this->getOwnerRecord()->id),
-                    $costo=Costo::create([
-                        'item_id'=>$data['item_id'],
-                        'valor'=>$data['valor'],
-                        'descripcion'=>$data['descripcion'],
-                        'ruta_imagen_item'=>$data['ruta_imagen_item'],
-                        'vehiculo_id'=>$vehiculo->id,
+                    ->action(fn (array $data, $livewire) => [
+                        /* dd($this->getOwnerRecord()), */
+                        $vehiculo = Vehiculo::find($this->getOwnerRecord()->id),
+                        $costo = Costo::create([
+                            'item_id' => $data['item_id'],
+                            'valor' => $data['valor'],
+                            'descripcion' => $data['descripcion'],
+                            'ruta_imagen_item' => $data['ruta_imagen_item'],
+                            'vehiculo_id' => $vehiculo->id,
+                        ]),
+                        $sumatotal = $vehiculo->total_costo + $costo['valor'],
+                        $vehiculo->update([
+                            'total_costo' => $sumatotal,
+                        ]),
                     ]),
-                    $sumatotal=$vehiculo->total_costo+$costo['valor'],
-                    $vehiculo->update([
-                    'total_costo'=>$sumatotal,
-                    ]),
-               /*  $livewire->emit('refresh') */
-                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
