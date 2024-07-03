@@ -16,11 +16,15 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
+use Filament\Support\Enums\Alignment;
+use Filament\Support\Enums\FontWeight;
+use Filament\Tables\Columns\ColumnGroup;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Support\Enums\IconPosition;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 
@@ -219,21 +223,74 @@ class VehiculoResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('matricula')
-                    ->label('No de Matricula')
-                    ->searchable(),
-                TextColumn::make('estado.nombre')
-                    ->label('Estado Vehiculo'),
-                TextColumn::make('kilometraje')
-                    ->label('Kilometraje'),
-                TextColumn::make('fecha_compra')
-                    ->label('Fecha de Compra'),
-                TextColumn::make('total_costo')
-                    ->label('Costos'),
-                TextColumn::make('valor_venta')
-                    ->label('Valor de Venta'),
-                TextColumn::make('utilidad')
-                    ->label('Utilidad'),
+
+                ColumnGroup::make(
+                    'Identificacion Vehiculo',
+                    [
+                        TextColumn::make('matricula')
+                            ->label('No de Matricula')
+                            ->sortable()
+                            ->iconPosition(IconPosition::Before)
+                            ->weight(FontWeight::Black)
+                            ->iconColor('black')
+                            ->icon('heroicon-m-truck')
+                            ->tooltip('Placa del Vehiculo')
+                            ->searchable(),
+                        TextColumn::make('modelo')
+                            ->label('Modelo')
+                            ->sortable()
+                            ->toggleable()
+                            ->searchable(),
+                        TextColumn::make('estado.nombre')
+                            ->sortable()
+                            ->toggleable()
+                            ->label('Estado'),
+                        TextColumn::make('kilometraje')
+                            ->toggleable()
+                            ->sortable()
+                            ->alignment(Alignment::Center)
+                            ->label('Km'),
+                        TextColumn::make('fecha_compra')
+                            ->sortable()
+                            ->alignment(Alignment::Center)
+                            ->toggleable()
+                            ->label('Fecha Compra'),
+                    ]
+                ),
+
+                ColumnGroup::make(
+                    'Resumen Financiero',
+                    [
+                        TextColumn::make('valor_compra')
+                            ->prefix('$')
+                            ->default('0')
+                            ->numeric(decimalPlaces: 0)
+                            ->tooltip('Precio de Compra del Vehiculo')
+                            ->alignment(Alignment::End)
+                            ->label('Valor Compra'),
+                        TextColumn::make('total_costo')
+                            ->prefix('$')
+                            ->default('0')
+                            ->numeric(decimalPlaces: 0)
+                            ->alignment(Alignment::End)
+                            ->tooltip('Valor Repuestos Incorporados al Vehiculo')
+                            ->label('Costos'),
+                        TextColumn::make('valor_venta')
+                            ->prefix('$')
+                            ->default('0')
+                            ->numeric(decimalPlaces: 0)
+                            ->alignment(Alignment::End)
+                            ->tooltip('Precio de Venta del Vehiculo')
+                            ->label('Valor Venta'),
+                        TextColumn::make('utilidad')
+                            ->tooltip('Margen de Ganacia')
+                            ->prefix('$')
+                            ->numeric(decimalPlaces: 0)
+                            ->alignment(Alignment::End)
+                            ->default('0')
+                            ->label('Utilidad'),
+                    ]
+                ),
             ])
             ->filters([
                 //
