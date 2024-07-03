@@ -196,7 +196,6 @@ class VehiculoResource extends Resource
                                         $valor_costo = $get('total_costo');
                                         $valor_compra = $get('valor_compra');
                                         $valor_venta = $get('valor_venta');
-
                                         $utilidad = $valor_venta - $valor_compra - $valor_costo;
                                         $set('utilidad', $utilidad);
                                         return true;
@@ -230,8 +229,12 @@ class VehiculoResource extends Resource
                     ->label('Kilometraje'),
                 TextColumn::make('fecha_compra')
                     ->label('Fecha de Compra'),
-                TextColumn::make('valor_compra')
-                    ->label('Valor de Compra'),
+                TextColumn::make('total_costo')
+                    ->label('Costos'),
+                TextColumn::make('valor_venta')
+                    ->label('Valor de Venta'),
+                TextColumn::make('utilidad')
+                    ->label('Utilidad'),
             ])
             ->filters([
                 //
