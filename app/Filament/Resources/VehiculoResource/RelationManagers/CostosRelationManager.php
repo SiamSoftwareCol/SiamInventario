@@ -15,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action as ActionsTable;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -84,7 +85,7 @@ class CostosRelationManager extends RelationManager
                         $vehiculo = Vehiculo::find($this->getOwnerRecord()->id),
                         $costo = Costo::create([
                             'item_id' => $data['item_id'],
-                            'valor' => $data['valor'],
+                            'x' => $data['valor'],
                             'descripcion' => $data['descripcion'],
                             'ruta_imagen_item' => $data['ruta_imagen_item'],
                             'vehiculo_id' => $vehiculo->id,
@@ -93,11 +94,30 @@ class CostosRelationManager extends RelationManager
                         $vehiculo->update([
                             'total_costo' => $sumatotal,
                         ]),
+                        $livewire->dispatch('refreshForm'),
                     ]),
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Action::make('delete')
+                    ->requiresConfirmation()
+                    ->action(
+                        function (Costo $record, $livewire) {
+
+                            $vehiculo = $this->getOwnerRecord();
+
+                            $nuevo_valor = $vehiculo->total_costo - $record->valor;
+
+                            $vehiculo->update([
+                                'total_costo' => $nuevo_valor,
+                            ]);
+
+                            $record->delete();
+                            $livewire->dispatch('refreshForm');
+                        }
+                    ),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
