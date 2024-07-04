@@ -74,7 +74,6 @@ class CostosRelationManager extends RelationManager
                         ->openable()
                         ->downloadable()
                         ->disk('local')
-                        ->hidden()
                         ->directory('images')
                         ->visibility('public')
                 ])
