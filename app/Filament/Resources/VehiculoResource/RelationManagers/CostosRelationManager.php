@@ -68,14 +68,14 @@ class CostosRelationManager extends RelationManager
                         ->columnSpan(4)
                         ->label('observaciones')
                         ->markAsRequired(false),
-                    FileUpload::make('ruta_imagen_item')
+                    /*                     FileUpload::make('ruta_imagen_item')
                         ->label('Imagen del Item')
                         ->columnSpan(4)
                         ->openable()
                         ->downloadable()
                         ->disk('local')
                         ->directory('images')
-                        ->visibility('public')
+                        ->visibility('public') */
                 ])
                     ->action(fn (array $data, $livewire) => [
                         /* dd($this->getOwnerRecord()), */
