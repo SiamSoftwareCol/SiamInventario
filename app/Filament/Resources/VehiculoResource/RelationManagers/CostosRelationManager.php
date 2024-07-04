@@ -85,7 +85,7 @@ class CostosRelationManager extends RelationManager
                         $vehiculo = Vehiculo::find($this->getOwnerRecord()->id),
                         $costo = Costo::create([
                             'item_id' => $data['item_id'],
-                            'x' => $data['valor'],
+                            'valor' => $data['valor'],
                             'descripcion' => $data['descripcion'],
                             'ruta_imagen_item' => $data['ruta_imagen_item'],
                             'vehiculo_id' => $vehiculo->id,
@@ -104,15 +104,11 @@ class CostosRelationManager extends RelationManager
                     ->requiresConfirmation()
                     ->action(
                         function (Costo $record, $livewire) {
-
                             $vehiculo = $this->getOwnerRecord();
-
                             $nuevo_valor = $vehiculo->total_costo - $record->valor;
-
                             $vehiculo->update([
                                 'total_costo' => $nuevo_valor,
                             ]);
-
                             $record->delete();
                             $livewire->dispatch('refreshForm');
                         }
