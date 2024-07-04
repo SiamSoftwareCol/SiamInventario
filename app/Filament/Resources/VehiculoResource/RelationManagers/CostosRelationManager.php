@@ -46,7 +46,6 @@ class CostosRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                /* Tables\Actions\CreateAction::make(), */
                 ActionsTable::make('Nuevo_Repuesto')->form([
 
                     Select::make('item_id')
@@ -98,7 +97,7 @@ class CostosRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Action::make('delete')
+                Action::make('Eliminar Repuesto')
                     ->requiresConfirmation()
                     ->action(
                         function (Costo $record, $livewire) {
