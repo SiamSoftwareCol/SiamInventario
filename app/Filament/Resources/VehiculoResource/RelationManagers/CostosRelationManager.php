@@ -73,12 +73,10 @@ class CostosRelationManager extends RelationManager
                         ->label('Imagen del Item')
                         ->columnSpan(4)
                         ->openable()
-                        ->deletable(false)
                         ->downloadable()
-                        ->previewable(true)
-                        ->disk('public')
-                        ->directory('vehiculos')
-                        ->visibility('public'),
+                        ->disk('spaces')
+                        ->directory('images')
+                        ->visibility('public')
                 ])
                     ->action(fn (array $data, $livewire) => [
                         /* dd($this->getOwnerRecord()), */
