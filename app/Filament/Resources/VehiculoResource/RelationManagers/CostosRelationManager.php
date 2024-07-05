@@ -52,24 +52,24 @@ class CostosRelationManager extends RelationManager
                         ->relationship('item', 'nombre')
                         ->columnSpan(2)
                         ->required()
-                        ->label('Item'),
+                        ->label('Repuesto'),
                     TextInput::make('valor')
                         ->columnSpan(3)
                         ->prefix('$ ')
                         ->minValue(0)
                         ->maxValue(9999999999999)
                         ->type('number')
-                        ->label('Valor Item')
+                        ->label('Valor')
                         ->step('1')
                         ->placeholder('0.00'),
                     Textarea::make('descripcion')
                         ->maxLength(255)
                         ->autocomplete(false)
                         ->columnSpan(4)
-                        ->label('observaciones')
+                        ->label('Observaciones')
                         ->markAsRequired(false),
                     FileUpload::make('ruta_imagen_item')
-                        ->label('Imagen del Item')
+                        ->label('Imagen del Repuesto')
                         ->columnSpan(4)
                         ->openable()
                         ->downloadable()
@@ -78,7 +78,6 @@ class CostosRelationManager extends RelationManager
                         ->visibility('public')
                 ])
                     ->action(fn (array $data, $livewire) => [
-                        /* dd($this->getOwnerRecord()), */
                         $vehiculo = Vehiculo::find($this->getOwnerRecord()->id),
                         $costo = Costo::create([
                             'item_id' => $data['item_id'],
