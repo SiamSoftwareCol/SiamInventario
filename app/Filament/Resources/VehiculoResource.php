@@ -105,7 +105,7 @@ class VehiculoResource extends Resource
                                     ->deletable(false)
                                     ->downloadable()
                                     ->previewable(true)
-                                    ->disk('local')
+                                    ->disk('public')
                                     ->directory('vehiculos')
                                     ->visibility('public'),
                                 Select::make('color_id')

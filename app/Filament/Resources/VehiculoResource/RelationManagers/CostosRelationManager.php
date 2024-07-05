@@ -73,7 +73,7 @@ class CostosRelationManager extends RelationManager
                         ->columnSpan(4)
                         ->openable()
                         ->downloadable()
-                        ->disk('local')
+                        ->disk('public')
                         ->directory('images')
                         ->visibility('public')
                 ])
