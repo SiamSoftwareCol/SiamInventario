@@ -38,7 +38,7 @@ class TrasmisionResource extends Resource
                 ->validationMessages([
                     'unique' => 'El :attribute ya esta registrado.',
                 ])
-                ->maxLength(25)
+                ->maxLength(40)
             ]);
     }
 
