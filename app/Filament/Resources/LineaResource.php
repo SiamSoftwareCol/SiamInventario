@@ -30,15 +30,25 @@ class LineaResource extends Resource
             ->schema([
                 TextInput::make('codigo')
                 ->required()
+                ->autocomplete(false)
+                ->unique(ignoreRecord: true)
+                ->validationMessages([
+                    'unique' => 'El :attribute ya esta registrado.',
+                ])
                 ->maxLength(255),
                 TextInput::make('nombre')
+                ->unique(ignoreRecord: true)
+                ->autocomplete(false)
+                ->validationMessages([
+                    'unique' => 'El :attribute ya esta registrado.',
+                ])
                 ->required()
                 ->maxLength(255),
                 Textarea::make('descripcion')
                 ->minLength(2)
+                ->autocomplete(false)
                 ->maxLength(1024)
                 ->rows(12)
-                ->required()
                 ->columnSpanFull(),
             ]);
     }
