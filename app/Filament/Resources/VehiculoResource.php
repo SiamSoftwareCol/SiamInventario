@@ -56,6 +56,7 @@ class VehiculoResource extends Resource
                                     ])
                                     ->maxLength(17)
                                     ->columnSpan(3)
+                                    ->help('Ingrese máximo 17 caracteres.')
                                     ->autocomplete(false)
                                     ->prefix('VIN')
                                     ->disabled(fn ($record) => optional($record)->exists ?? false) // Verificar si $record existe antes de acceder a ->exists
