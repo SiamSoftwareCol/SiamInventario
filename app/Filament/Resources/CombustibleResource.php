@@ -35,6 +35,10 @@ class CombustibleResource extends Resource
                 ->unique(ignoreRecord: true)
                 ->autocomplete(false)
                 ->columnSpan(4)
+                ->validationMessages([
+                    'unique' => 'El :attribute ya esta registrado.',
+                    'maxLength' => 'El :attribute es de maximo 15 caracteres.',
+                ])
                 ->maxLength(15),
             ]);
     }
