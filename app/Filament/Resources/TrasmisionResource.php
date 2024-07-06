@@ -35,8 +35,10 @@ class TrasmisionResource extends Resource
                 ->label('Tipo de Trasmision')
                 ->unique(ignoreRecord: true)
                 ->autocomplete(false)
-                ->columnSpan(3)
-                ->maxLength(15)
+                ->validationMessages([
+                    'unique' => 'El :attribute ya esta registrado.',
+                ])
+                ->maxLength(25)
             ]);
     }
 
