@@ -28,7 +28,6 @@ class TrasmisionResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->columns(8)
             ->schema([
             TextInput::make('nombre')
                 ->required()

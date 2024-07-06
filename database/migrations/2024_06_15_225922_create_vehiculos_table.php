@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('identificacion', 17)->unique();
             $table->string('motor', 17)->unique();
-            $table->string('matricula', 6)->unique();
+            $table->string('matricula', 16)->unique();
             $table->foreignId('fabricante_id')->constrained('fabricantes')->cascadeOnDelete();
             $table->foreignId('linea_id')->constrained('lineas')->cascadeOnDelete();
             $table->string('modelo', 4);

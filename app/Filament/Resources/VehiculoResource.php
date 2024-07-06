@@ -51,6 +51,9 @@ class VehiculoResource extends Resource
                                     ->markAsRequired(false)
                                     ->required()
                                     ->unique(ignoreRecord: true)
+                                    ->validationMessages([
+                                        'unique' => 'El :attribute ya esta registrado.',
+                                    ])
                                     ->maxLength(17)
                                     ->columnSpan(3)
                                     ->autocomplete(false)
@@ -61,6 +64,9 @@ class VehiculoResource extends Resource
                                     ->markAsRequired(false)
                                     ->required()
                                     ->unique(ignoreRecord: true)
+                                    ->validationMessages([
+                                        'unique' => 'El :attribute ya esta registrado.',
+                                    ])
                                     ->maxLength(17)
                                     ->columnSpan(3)
                                     ->autocomplete(false)
@@ -71,7 +77,10 @@ class VehiculoResource extends Resource
                                     ->markAsRequired(false)
                                     ->required()
                                     ->unique(ignoreRecord: true)
-                                    ->maxLength(6)
+                                    ->validationMessages([
+                                        'unique' => 'El :attribute ya esta registrado.',
+                                    ])
+                                    ->maxLength(16)
                                     ->columnSpan(3)
                                     ->autocomplete(false)
                                     ->prefix('Matricula')
