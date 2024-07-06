@@ -77,6 +77,7 @@ class CostosRelationManager extends RelationManager
                         ->disk('spaces')
                         ->directory('images')
                         ->visibility('public')
+                        ->preserveFilenames(),
                 ])
                     ->action(fn (array $data, $livewire) => [
                         $vehiculo = Vehiculo::find($this->getOwnerRecord()->id),

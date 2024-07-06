@@ -91,7 +91,6 @@ class VehiculoResource extends Resource
                                 TextInput::make('modelo')
                                     ->markAsRequired(false)
                                     ->required()
-                                    ->unique(ignoreRecord: true)
                                     ->maxLength(4)
                                     ->columnSpan(1)
                                     ->autocomplete(false)
