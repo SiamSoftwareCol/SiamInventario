@@ -39,7 +39,7 @@ class ItemResource extends Resource
                     'unique' => 'El :attribute ya esta registrado.',
                 ])
                 ->columnSpan(2)
-                ->maxLength(15),
+                ->maxLength(25),
             Textarea::make('referencia')
                 ->minLength(2)
                 ->maxLength(1024)
