@@ -37,7 +37,6 @@ class CombustibleResource extends Resource
                 ->columnSpan(4)
                 ->validationMessages([
                     'unique' => 'El :attribute ya esta registrado.',
-                    'maxLength' => 'El :attribute es de maximo 15 caracteres.',
                 ])
                 ->maxLength(15),
             ]);

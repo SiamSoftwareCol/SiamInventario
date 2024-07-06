@@ -31,10 +31,18 @@ class EstadoResource extends Resource
             ->schema([
                 TextInput::make('codigo')
                 ->required()
-                ->maxLength(255),
+                ->unique(ignoreRecord: true)
+                ->validationMessages([
+                    'unique' => 'El :attribute ya esta registrado.',
+                ])
+                ->maxLength(3),
                 TextInput::make('nombre')
                 ->required()
-                ->maxLength(255),
+                ->unique(ignoreRecord: true)
+                ->validationMessages([
+                    'unique' => 'El :attribute ya esta registrado.',
+                ])
+                ->maxLength(12),
                 Textarea::make('descripcion')
                 ->minLength(2)
                 ->maxLength(1024)
