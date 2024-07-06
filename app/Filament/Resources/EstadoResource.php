@@ -42,7 +42,7 @@ class EstadoResource extends Resource
                 ->validationMessages([
                     'unique' => 'El :attribute ya esta registrado.',
                 ])
-                ->maxLength(12),
+                ->maxLength(25),
                 Textarea::make('descripcion')
                 ->minLength(2)
                 ->maxLength(1024)
