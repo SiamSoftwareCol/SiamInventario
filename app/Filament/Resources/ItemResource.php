@@ -22,8 +22,8 @@ class ItemResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
     protected static ?string $navigationGroup = 'Parametros Generales';
-    protected static ?string $modelLabel = 'Item';
-    protected static ?string $navigationLabel = 'Items';
+    protected static ?string $modelLabel = 'Repuesto';
+    protected static ?string $navigationLabel = 'Repuestos';
 
     public static function form(Form $form): Form
     {
@@ -34,6 +34,10 @@ class ItemResource extends Resource
                 ->required()
                 ->label('Nombre Item')
                 ->autocomplete(false)
+                ->unique(ignoreRecord: true)
+                ->validationMessages([
+                    'unique' => 'El :attribute ya esta registrado.',
+                ])
                 ->columnSpan(2)
                 ->maxLength(15),
             Textarea::make('referencia')
