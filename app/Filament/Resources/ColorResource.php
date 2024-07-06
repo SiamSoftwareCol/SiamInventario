@@ -33,6 +33,9 @@ class ColorResource extends Resource
                 ->required()
                 ->unique(ignoreRecord: true)
                 ->autocomplete(false)
+                ->validationMessages([
+                    'unique' => 'El :attribute ya esta registrado.',
+                ])
                 ->label('Nombre del Color')
                 ->columnSpan(3)
                 ->maxLength(15),
@@ -67,4 +70,3 @@ class ColorResource extends Resource
         ];
     }
 }
- 
