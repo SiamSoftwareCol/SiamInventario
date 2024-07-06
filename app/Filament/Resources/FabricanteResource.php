@@ -34,6 +34,9 @@ class FabricanteResource extends Resource
                 ->required()
                 ->label('Fabricante')
                 ->unique(ignoreRecord: true)
+                ->validationMessages([
+                    'unique' => 'El :attribute ya esta registrado.',
+                ])
                 ->autocomplete(false)
                 ->columnSpan(2)
                 ->maxLength(15),
@@ -41,6 +44,7 @@ class FabricanteResource extends Resource
                 ->minLength(2)
                 ->maxLength(1024)
                 ->rows(4)
+                ->autocomplete(false)
                 ->label('Descripcion del Fabricante')
                 ->required()
                 ->columnSpanFull(),

@@ -31,6 +31,7 @@ class EstadoResource extends Resource
             ->schema([
                 TextInput::make('codigo')
                 ->required()
+                ->autocomplete(false)
                 ->unique(ignoreRecord: true)
                 ->validationMessages([
                     'unique' => 'El :attribute ya esta registrado.',
@@ -38,6 +39,7 @@ class EstadoResource extends Resource
                 ->maxLength(3),
                 TextInput::make('nombre')
                 ->required()
+                ->autocomplete(false)
                 ->unique(ignoreRecord: true)
                 ->validationMessages([
                     'unique' => 'El :attribute ya esta registrado.',
@@ -46,6 +48,7 @@ class EstadoResource extends Resource
                 Textarea::make('descripcion')
                 ->minLength(2)
                 ->maxLength(1024)
+                ->autocomplete(false)
                 ->rows(4)
                 ->required()
                 ->columnSpanFull(),
