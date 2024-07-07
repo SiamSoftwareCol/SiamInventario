@@ -143,7 +143,7 @@ class VehiculoResource extends Resource
                                         ->label('Tipo Transmisión'),
                                     FileUpload::make('ruta_imagen')
                                         ->label('Imagen')
-                                        ->columnSpan(['lg' => 3, 'md' => 12, 'sm' => 12])
+                                        ->columnSpan(['lg' => 7, 'md' => 12, 'sm' => 12])
                                         ->openable()
                                         ->deletable(false)
                                         ->downloadable()
@@ -155,7 +155,7 @@ class VehiculoResource extends Resource
                                     Textarea::make('descripcion')
                                         ->maxLength(255)
                                         ->autocomplete(false)
-                                        ->columnSpan(['lg' => 3, 'md' => 12, 'sm' => 12])
+                                        ->columnSpan(['lg' => 7, 'md' => 12, 'sm' => 12])
                                         ->label('Detalles del Vehículo')
                                         ->markAsRequired(false),
                                 ]),
