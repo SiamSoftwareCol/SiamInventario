@@ -170,7 +170,7 @@ class VehiculoResource extends Resource
                                         ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
                                         ->label('Fecha de Compra'),
                                     TextInput::make('valor_compra')
-                                        ->columnSpan(['lg' => 2, 'md' => 6, 'sm' => 12])
+                                        ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
                                         ->minValue(0)
                                         ->prefix('$ |')
                                         ->maxValue(9999999999999)
@@ -184,7 +184,7 @@ class VehiculoResource extends Resource
                                         ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
                                         ->label('Fecha de Venta'),
                                     TextInput::make('valor_venta')
-                                     ->columnSpan(['lg' => 2, 'md' => 6, 'sm' => 12])
+                                     ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
                                         ->prefix('$ |')
                                         ->minValue(0)
                                         ->live(onBlur: true)
@@ -194,7 +194,7 @@ class VehiculoResource extends Resource
                                         ->step('1')
                                         ->placeholder('0.00'),
                                     TextInput::make('total_costo')
-                                        ->columnSpan(['lg' => 2, 'md' => 6, 'sm' => 12])
+                                        ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
                                         ->minValue(0)
                                         ->prefix('$ |')
                                         ->live()
@@ -205,7 +205,7 @@ class VehiculoResource extends Resource
                                         ->step('1')
                                         ->placeholder('0.00'),
                                     TextInput::make('utilidad')
-                                        ->columnSpan(['lg' => 2, 'md' => 6, 'sm' => 12])
+                                        ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
                                         ->minValue(0)
                                         ->live()
                                         ->prefix('$ |')
@@ -224,7 +224,7 @@ class VehiculoResource extends Resource
                                         ->placeholder('0.00'),
                                     Select::make('estado_id')
                                         ->relationship('estado', 'nombre')
-                                        ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
+                                        ->columnSpan(['lg' => 2, 'md' => 6, 'sm' => 12])
                                         ->required()
                                         ->label('Estado Actual'),
                                 ]),
