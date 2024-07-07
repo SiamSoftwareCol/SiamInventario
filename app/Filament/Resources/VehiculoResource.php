@@ -224,7 +224,7 @@ class VehiculoResource extends Resource
                                         ->placeholder('0.00'),
                                     Select::make('estado_id')
                                         ->relationship('estado', 'nombre')
-                                        ->columnSpan(['lg' => 2, 'md' => 6, 'sm' => 12])
+                                        ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
                                         ->required()
                                         ->label('Estado Actual'),
                                 ]),
