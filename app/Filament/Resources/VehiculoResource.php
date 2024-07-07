@@ -261,12 +261,6 @@ class VehiculoResource extends Resource
                             ->sortable()
                             ->toggleable()
                             ->label('Estado'),
-                        TextColumn::make('kilometraje')
-                            ->toggleable()
-                            ->sortable()
-                            ->numeric(decimalPlaces: 0)
-                            ->alignment(Alignment::Center)
-                            ->label('Km'),
                         TextColumn::make('fecha_compra')
                             ->sortable()
                             ->alignment(Alignment::Center)
