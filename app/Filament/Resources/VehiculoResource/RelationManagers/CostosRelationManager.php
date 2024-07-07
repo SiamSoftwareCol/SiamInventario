@@ -110,6 +110,7 @@ class CostosRelationManager extends RelationManager
                                 ->relationship('item', 'nombre')
                                 ->columnSpan(2)
                                 ->required()
+                                ->searchable()
                                 ->label('Repuesto')
                                 ->default($record->item_id ?? null), // Cargar valor existente
                             TextInput::make('valor')
@@ -193,7 +194,7 @@ class CostosRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                   /*  Tables\Actions\DeleteBulkAction::make(), */
                 ]),
             ]);
     }
