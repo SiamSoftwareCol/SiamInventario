@@ -46,14 +46,11 @@ class CostosRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                /* Tables\Actions\CreateAction::make(), */
                 ActionsTable::make('Nuevo_Repuesto')->form([
 
                     Select::make('item_id')
                         ->relationship('item', 'nombre')
                         ->columnSpan(2)
-                        ->searchable()
-                        ->suffixIcon('heroicon-m-wrench-screwdriver')
                         ->required()
                         ->label('Item'),
                     TextInput::make('valor')
@@ -75,11 +72,9 @@ class CostosRelationManager extends RelationManager
                         ->label('Imagen del Item')
                         ->columnSpan(4)
                         ->openable()
-                        ->deletable(false)
                         ->downloadable()
-                        ->previewable(true)
                         ->disk('spaces')
-                        ->directory('repuestos')
+                        ->directory('images')
                         ->visibility('public')
                 ])
                     ->action(fn (array $data, $livewire) => [
@@ -102,19 +97,15 @@ class CostosRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Action::make('delete')
+                Action::make('Eliminar Repuesto')
                     ->requiresConfirmation()
                     ->action(
                         function (Costo $record, $livewire) {
-
                             $vehiculo = $this->getOwnerRecord();
-
                             $nuevo_valor = $vehiculo->total_costo - $record->valor;
-
                             $vehiculo->update([
                                 'total_costo' => $nuevo_valor,
                             ]);
-
                             $record->delete();
                             $livewire->dispatch('refreshForm');
                         }
