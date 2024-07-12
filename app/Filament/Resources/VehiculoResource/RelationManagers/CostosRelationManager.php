@@ -27,8 +27,7 @@ class CostosRelationManager extends RelationManager
 
     public function form(Form $form): Form
     {
-        return $form
-            ->schema([]);
+        return $form->schema([]);
     }
 
     public function table(Table $table): Table
@@ -48,7 +47,6 @@ class CostosRelationManager extends RelationManager
             ])
             ->headerActions([
                 ActionsTable::make('Nuevo_Repuesto')->form([
-
                     Select::make('item_id')
                         ->relationship('item', 'nombre')
                         ->columnSpan(2)
@@ -78,31 +76,30 @@ class CostosRelationManager extends RelationManager
                         ->directory('images')
                         ->visibility('public')
                         ->preserveFilenames(),
-                ])
-                    ->action(fn (array $data, $livewire) => [
-                        $vehiculo = Vehiculo::find($this->getOwnerRecord()->id),
-                        $costo = Costo::create([
-                            'item_id' => $data['item_id'],
-                            'valor' => $data['valor'],
-                            'descripcion' => $data['descripcion'],
-                            'ruta_imagen_item' => $data['ruta_imagen_item'],
-                            'vehiculo_id' => $vehiculo->id,
-                        ]),
-                        $sumatotal = $vehiculo->total_costo + $costo['valor'],
-                        $vehiculo->update([
-                            'total_costo' => $sumatotal,
-                        ]),
-                        $livewire->dispatch('refreshForm'),
-                    ]),
+                ])->action(function (array $data, $livewire) {
+                    $vehiculo = Vehiculo::find($this->getOwnerRecord()->id);
 
+                    // Asegurarse de que 'ruta_imagen_item' sea un arreglo si es necesario
+                    $rutaImagenItem = is_array($data['ruta_imagen_item']) ? $data['ruta_imagen_item'] : [$data['ruta_imagen_item']];
+
+                    $costo = Costo::create([
+                        'item_id' => $data['item_id'],
+                        'valor' => $data['valor'],
+                        'descripcion' => $data['descripcion'],
+                        'ruta_imagen_item' => json_encode($rutaImagenItem), // Guardar como JSON si es un arreglo
+                        'vehiculo_id' => $vehiculo->id,
+                    ]);
+
+                    $sumatotal = $vehiculo->total_costo + $costo['valor'];
+                    $vehiculo->update(['total_costo' => $sumatotal]);
+
+                    $livewire->dispatch('refreshForm');
+                }),
             ])
             ->actions([
-                /* Tables\Actions\EditAction::make(), */
-
                 Action::make('Editar')
                     ->form(function ($record) {
                         return [
-                            // Campo oculto para el ID
                             Hidden::make('id')
                                 ->default($record->id ?? null),
 
@@ -112,7 +109,7 @@ class CostosRelationManager extends RelationManager
                                 ->required()
                                 ->searchable()
                                 ->label('Repuesto')
-                                ->default($record->item_id ?? null), // Cargar valor existente
+                                ->default($record->item_id ?? null),
                             TextInput::make('valor')
                                 ->columnSpan(3)
                                 ->prefix('$ ')
@@ -122,14 +119,14 @@ class CostosRelationManager extends RelationManager
                                 ->label('Valor')
                                 ->step('1')
                                 ->placeholder('0.00')
-                                ->default($record->valor ?? 0), // Cargar valor existente
+                                ->default($record->valor ?? 0),
                             Textarea::make('descripcion')
                                 ->maxLength(255)
                                 ->autocomplete(false)
                                 ->columnSpan(4)
                                 ->label('Observaciones')
                                 ->markAsRequired(false)
-                                ->default($record->descripcion ?? ''), // Cargar valor existente
+                                ->default($record->descripcion ?? ''),
                             FileUpload::make('ruta_imagen_item')
                                 ->label('Imagen del Repuesto')
                                 ->columnSpan(4)
@@ -138,63 +135,55 @@ class CostosRelationManager extends RelationManager
                                 ->disk('spaces')
                                 ->directory('images')
                                 ->visibility('public')
-                                ->default($record->ruta_imagen_item ?? null), // Cargar valor existente
+                                ->default($record->ruta_imagen_item ? json_decode($record->ruta_imagen_item) : null), // Decodificar si es JSON
                         ];
                     })
                     ->action(function (array $data, $livewire) {
                         $vehiculo = Vehiculo::find($this->getOwnerRecord()->id);
 
-                        // Buscar el costo existente
+                        $rutaImagenItem = is_array($data['ruta_imagen_item']) ? $data['ruta_imagen_item'] : [$data['ruta_imagen_item']];
+
                         $costo = Costo::find($data['id']);
 
-                        // Calcular la diferencia y ajustar el total del costo del vehículo
                         $valorAnterior = $costo ? $costo->valor : 0;
                         $diferencia = $data['valor'] - $valorAnterior;
 
-                        // Si el costo existe, actualiza, de lo contrario, crea uno nuevo
                         if ($costo) {
                             $costo->update([
                                 'item_id' => $data['item_id'],
                                 'valor' => $data['valor'],
                                 'descripcion' => $data['descripcion'],
-                                'ruta_imagen_item' => $data['ruta_imagen_item'],
+                                'ruta_imagen_item' => json_encode($rutaImagenItem),
                             ]);
                         } else {
                             $costo = Costo::create([
                                 'item_id' => $data['item_id'],
                                 'valor' => $data['valor'],
                                 'descripcion' => $data['descripcion'],
-                                'ruta_imagen_item' => $data['ruta_imagen_item'],
+                                'ruta_imagen_item' => json_encode($rutaImagenItem),
                                 'vehiculo_id' => $vehiculo->id,
                             ]);
                         }
 
                         $sumatotal = $vehiculo->total_costo + $diferencia;
-                        $vehiculo->update([
-                            'total_costo' => $sumatotal,
-                        ]);
+                        $vehiculo->update(['total_costo' => $sumatotal]);
 
                         $livewire->dispatch('refreshForm');
                     }),
 
                 Action::make('Eliminar Repuesto')
                     ->requiresConfirmation()
-                    ->action(
-                        function (Costo $record, $livewire) {
-                            $vehiculo = $this->getOwnerRecord();
-                            $nuevo_valor = $vehiculo->total_costo - $record->valor;
-                            $vehiculo->update([
-                                'total_costo' => $nuevo_valor,
-                            ]);
-                            $record->delete();
-                            $livewire->dispatch('refreshForm');
-                        }
-                    ),
-
+                    ->action(function (Costo $record, $livewire) {
+                        $vehiculo = $this->getOwnerRecord();
+                        $nuevo_valor = $vehiculo->total_costo - $record->valor;
+                        $vehiculo->update(['total_costo' => $nuevo_valor]);
+                        $record->delete();
+                        $livewire->dispatch('refreshForm');
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                   /*  Tables\Actions\DeleteBulkAction::make(), */
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
