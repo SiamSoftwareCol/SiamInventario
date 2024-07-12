@@ -45,12 +45,13 @@ class CostosRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                /* Tables\Actions\CreateAction::make(), */
                 ActionsTable::make('Nuevo_Repuesto')->form([
 
                     Select::make('item_id')
                         ->relationship('item', 'nombre')
                         ->columnSpan(2)
+                        ->searchable()
+                        ->suffixIcon('heroicon-wrench-screwdriver')
                         ->required()
                         ->label('Item'),
                     TextInput::make('valor')
@@ -93,17 +94,13 @@ class CostosRelationManager extends RelationManager
                         $vehiculo->update([
                             'total_costo' => $sumatotal,
                         ]),
-                        /*  $livewire->emit('refresh') */
                     ]),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\BulkActionGroup::make([]),
             ]);
     }
 }
