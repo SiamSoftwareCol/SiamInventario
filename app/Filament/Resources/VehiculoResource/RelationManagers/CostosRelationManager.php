@@ -13,7 +13,6 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Actions\Action;
@@ -67,26 +66,13 @@ class CostosRelationManager extends RelationManager
                         ->columnSpan(4)
                         ->label('Observaciones')
                         ->markAsRequired(false),
-                    FileUpload::make('ruta_imagen_item')
-                        ->label('Imagen del Repuesto')
-                        ->columnSpan(4)
-                        ->openable()
-                        ->downloadable()
-                        ->disk('spaces')
-                        ->directory('images')
-                        ->visibility('public')
-                        ->preserveFilenames(),
                 ])->action(function (array $data, $livewire) {
                     $vehiculo = Vehiculo::find($this->getOwnerRecord()->id);
-
-                    // Asegurarse de que 'ruta_imagen_item' sea un arreglo si es necesario
-                    $rutaImagenItem = is_array($data['ruta_imagen_item']) ? $data['ruta_imagen_item'] : [$data['ruta_imagen_item']];
 
                     $costo = Costo::create([
                         'item_id' => $data['item_id'],
                         'valor' => $data['valor'],
                         'descripcion' => $data['descripcion'],
-                        'ruta_imagen_item' => json_encode($rutaImagenItem), // Guardar como JSON si es un arreglo
                         'vehiculo_id' => $vehiculo->id,
                     ]);
 
@@ -127,21 +113,10 @@ class CostosRelationManager extends RelationManager
                                 ->label('Observaciones')
                                 ->markAsRequired(false)
                                 ->default($record->descripcion ?? ''),
-                            FileUpload::make('ruta_imagen_item')
-                                ->label('Imagen del Repuesto')
-                                ->columnSpan(4)
-                                ->openable()
-                                ->downloadable()
-                                ->disk('spaces')
-                                ->directory('images')
-                                ->visibility('public')
-                                ->default($record->ruta_imagen_item ? json_decode($record->ruta_imagen_item) : null), // Decodificar si es JSON
                         ];
                     })
                     ->action(function (array $data, $livewire) {
                         $vehiculo = Vehiculo::find($this->getOwnerRecord()->id);
-
-                        $rutaImagenItem = is_array($data['ruta_imagen_item']) ? $data['ruta_imagen_item'] : [$data['ruta_imagen_item']];
 
                         $costo = Costo::find($data['id']);
 
@@ -153,14 +128,12 @@ class CostosRelationManager extends RelationManager
                                 'item_id' => $data['item_id'],
                                 'valor' => $data['valor'],
                                 'descripcion' => $data['descripcion'],
-                                'ruta_imagen_item' => json_encode($rutaImagenItem),
                             ]);
                         } else {
                             $costo = Costo::create([
                                 'item_id' => $data['item_id'],
                                 'valor' => $data['valor'],
                                 'descripcion' => $data['descripcion'],
-                                'ruta_imagen_item' => json_encode($rutaImagenItem),
                                 'vehiculo_id' => $vehiculo->id,
                             ]);
                         }
