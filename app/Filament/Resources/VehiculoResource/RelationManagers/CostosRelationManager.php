@@ -15,6 +15,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\Action;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\Action as ActionsTable;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -45,6 +46,7 @@ class CostosRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
+                /* Tables\Actions\CreateAction::make(), */
                 ActionsTable::make('Nuevo_Repuesto')->form([
 
                     Select::make('item_id')
@@ -76,9 +78,9 @@ class CostosRelationManager extends RelationManager
                         ->deletable(false)
                         ->downloadable()
                         ->previewable(true)
-                        ->disk('public')
-                        ->directory('vehiculos')
-                        ->visibility('public'),
+                        ->disk('spaces')
+                        ->directory('repuestos')
+                        ->visibility('public')
                 ])
                     ->action(fn (array $data, $livewire) => [
                         /* dd($this->getOwnerRecord()), */
@@ -94,13 +96,35 @@ class CostosRelationManager extends RelationManager
                         $vehiculo->update([
                             'total_costo' => $sumatotal,
                         ]),
+                        $livewire->dispatch('refreshForm'),
                     ]),
+
             ])
             ->actions([
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make(),
+                Action::make('delete')
+                    ->requiresConfirmation()
+                    ->action(
+                        function (Costo $record, $livewire) {
+
+                            $vehiculo = $this->getOwnerRecord();
+
+                            $nuevo_valor = $vehiculo->total_costo - $record->valor;
+
+                            $vehiculo->update([
+                                'total_costo' => $nuevo_valor,
+                            ]);
+
+                            $record->delete();
+                            $livewire->dispatch('refreshForm');
+                        }
+                    ),
+
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([]),
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 }
