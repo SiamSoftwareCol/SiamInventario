@@ -51,7 +51,7 @@ class CostosRelationManager extends RelationManager
                         ->relationship('item', 'nombre')
                         ->columnSpan(2)
                         ->searchable()
-                        ->suffixIcon('heroicon-wrench-screwdriver')
+                        ->suffixIcon('heroicon-m-wrench-screwdriver')
                         ->required()
                         ->label('Item'),
                     TextInput::make('valor')
