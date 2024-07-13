@@ -146,7 +146,7 @@ class VehiculoResource extends Resource
                                         ->minValue(0)
                                         ->live()
                                         ->hint('Margen de Utilidad Actual')
-                                        ->hintColor('primary')
+                                        ->hintColor('warning')
                                         ->autofocus()
                                         ->prefix('$ |')
                                         ->maxValue(9999999999999)
@@ -159,7 +159,6 @@ class VehiculoResource extends Resource
                                             return true;
                                         })
                                         ->type('number')
-                                        ->label('Utilidad Total')
                                         ->step('1')
                                         ->placeholder('0.00'),
                                     FileUpload::make('ruta_imagen')
@@ -226,10 +225,13 @@ class VehiculoResource extends Resource
                                         ->label('Costo Total')
                                         ->step('1')
                                         ->placeholder('0.00'),
-                                    TextInput::make('utilidad')
+                                        TextInput::make('utilidad')
                                         ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
                                         ->minValue(0)
                                         ->live()
+                                        ->hint('Margen de Utilidad Actual')
+                                        ->hintColor('warning')
+                                        ->autofocus()
                                         ->prefix('$ |')
                                         ->maxValue(9999999999999)
                                         ->readOnly(function (Get $get, Set $set) {
@@ -241,7 +243,6 @@ class VehiculoResource extends Resource
                                             return true;
                                         })
                                         ->type('number')
-                                        ->label('Utilidad Total')
                                         ->step('1')
                                         ->placeholder('0.00'),
                                     Select::make('estado_id')
