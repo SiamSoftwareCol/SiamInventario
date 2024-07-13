@@ -86,7 +86,8 @@ class CostosRelationManager extends RelationManager
                         $vehiculo->update([
                             'total_costo' => $sumatotal,
                         ]),
-                        $livewire->dispatch('refreshForm'),
+                        /* $livewire->dispatch('refreshForm'), */
+                        $livewire->redirect(request()->header('Referer')),
                     ]),
             ])
             ->actions([
@@ -133,6 +134,7 @@ class CostosRelationManager extends RelationManager
                     })
                     ->action(function (array $data, $livewire) {
                         $vehiculo = Vehiculo::find($this->getOwnerRecord()->id);
+
                         // Buscar el costo existente
                         $costo = Costo::find($data['id']);
                         // Calcular la diferencia y ajustar el total del costo del vehículo
@@ -159,7 +161,9 @@ class CostosRelationManager extends RelationManager
                         $vehiculo->update([
                             'total_costo' => $sumatotal,
                         ]);
-                        $livewire->dispatch('refreshForm');
+                        /* $livewire->dispatch('refreshForm'); */
+                        $livewire->redirect(request()->header('Referer'));
+
                     }),
                 Action::make('Eliminar Repuesto')
                     ->requiresConfirmation()
@@ -171,7 +175,8 @@ class CostosRelationManager extends RelationManager
                                 'total_costo' => $nuevo_valor,
                             ]);
                             $record->delete();
-                            $livewire->dispatch('refreshForm');
+                            /* $livewire->dispatch('refreshForm'); */
+                            $livewire->redirect(request()->header('Referer'));
                         }
                     ),
             ])
