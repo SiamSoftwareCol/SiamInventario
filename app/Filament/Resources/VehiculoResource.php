@@ -146,7 +146,7 @@ class VehiculoResource extends Resource
                                         ->minValue(0)
                                         ->live()
                                         ->hint('Margen de Utilidad Actual')
-                                        ->hintColor('warning')
+                                        ->hintColor('danger')
                                         ->autofocus()
                                         ->prefix('$ |')
                                         ->maxValue(9999999999999)
@@ -230,7 +230,7 @@ class VehiculoResource extends Resource
                                         ->minValue(0)
                                         ->live()
                                         ->hint('Margen de Utilidad Actual')
-                                        ->hintColor('warning')
+                                        ->hintColor('danger')
                                         ->autofocus()
                                         ->prefix('$ |')
                                         ->maxValue(9999999999999)
@@ -331,7 +331,6 @@ class VehiculoResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
