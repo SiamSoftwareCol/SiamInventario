@@ -208,8 +208,6 @@ class VehiculoResource extends Resource
                                         ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
                                         ->minValue(0)
                                         ->live()
-                                        ->suffixIcon('heroicon-m-gcurrency-dollar')
-                                        ->suffixIconColor('success')
                                         ->prefix('$ |')
                                         ->maxValue(9999999999999)
                                         ->readOnly(function (Get $get, Set $set) {
@@ -311,7 +309,6 @@ class VehiculoResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
