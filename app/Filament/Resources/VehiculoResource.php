@@ -158,6 +158,24 @@ class VehiculoResource extends Resource
                                         ->columnSpan(['lg' => 7, 'md' => 12, 'sm' => 12])
                                         ->label('Detalles del Vehículo')
                                         ->markAsRequired(false),
+                                    TextInput::make('utilidad')
+                                        ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
+                                        ->minValue(0)
+                                        ->live()
+                                        ->prefix('$ |')
+                                        ->maxValue(9999999999999)
+                                        ->readOnly(function (Get $get, Set $set) {
+                                            $valor_costo = $get('total_costo');
+                                            $valor_compra = $get('valor_compra');
+                                            $valor_venta = $get('valor_venta');
+                                            $utilidad = $valor_venta - $valor_compra - $valor_costo;
+                                            $set('utilidad', $utilidad);
+                                            return true;
+                                        })
+                                        ->type('number')
+                                        ->label('Utilidad Total')
+                                        ->step('1')
+                                        ->placeholder('0.00'),
                                 ]),
                         ]),
                     Wizard\Step::make('Datos Comerciales del Vehículo')
