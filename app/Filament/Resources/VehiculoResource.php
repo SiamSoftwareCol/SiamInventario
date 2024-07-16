@@ -171,14 +171,12 @@ class VehiculoResource extends Resource
                                         ->disk('spaces')
                                         ->directory('images')
                                         ->visibility('public')
-                                        ->multiple()
                                         ->preserveFilenames(),
                                     Textarea::make('descripcion')
                                         ->maxLength(255)
                                         ->autocomplete(false)
                                         ->columnSpan(['lg' => 7, 'md' => 12, 'sm' => 12])
-                                        ->label('Detalles del Vehículo')
-                                        ->markAsRequired(false),
+                                        ->label('Detalles del Vehículo'),
 
                                 ]),
                         ]),
