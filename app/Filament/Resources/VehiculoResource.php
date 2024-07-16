@@ -102,7 +102,7 @@ class VehiculoResource extends Resource
                                         ->markAsRequired(false)
                                         ->required()
                                         ->maxLength(4)
-                                        ->columnSpan(['lg' => 1, 'md' => 6, 'sm' => 12])
+                                        ->columnSpan(['lg' => 2, 'md' => 6, 'sm' => 12])
                                         ->autocomplete(false)
                                         ->prefix('Año')
                                         ->rule('regex:/^[0-9]+$/')
@@ -171,6 +171,7 @@ class VehiculoResource extends Resource
                                         ->disk('spaces')
                                         ->directory('images')
                                         ->visibility('public')
+                                        ->multiple()
                                         ->preserveFilenames(),
                                     Textarea::make('descripcion')
                                         ->maxLength(255)
