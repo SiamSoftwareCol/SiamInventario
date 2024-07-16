@@ -12,6 +12,9 @@ class Vehiculo extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'ruta_imagen' => 'array',
+    ];
 
         public function fabricante(): BelongsTo
     {

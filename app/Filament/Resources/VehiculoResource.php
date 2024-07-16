@@ -171,6 +171,7 @@ class VehiculoResource extends Resource
                                         ->disk('spaces')
                                         ->directory('images')
                                         ->visibility('public')
+                                        ->multiple()
                                         ->preserveFilenames(),
                                     Textarea::make('descripcion')
                                         ->maxLength(255)
